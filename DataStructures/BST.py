@@ -79,11 +79,63 @@ class Node:
 				return self.right
 			else:
 				return self.right.find(value)
+				
+	def delete(self):
+		# no children
+		if self.right == None and self.left == None:
+			if self.parent != None:
+				if self.parent.right is self:
+					self.parent.right = None
+				else:
+					self.parent.left = None
+				return self
+			else:
+				copy = self
+				self.value = None
+				return copy
+				
+		# one child
+		# right
+		elif self.right == None:
+			self.left.parent = self.parent
+			if self.parent != None:
+				if self.parent.right is self:
+					self.parent.right = self.left
+				else:
+					self.parent.left = self.left
+				return self
+			else:
+				copy = Node(self.value)
+				self.value = self.left.value
+				self.right = self.left.right
+				self.left = self.left.right
+				return copy
+		# left
+		elif self.left == None:
+			self.right.parent = self.parent
+			if self.parent != None:
+				if self.parent.right == self:
+					self.parent.right = self.right
+				else:
+					self.parent.left = self.right
+				return self
+			else:
+				copy = Node(self.value)
+				self.value = self.right.value
+				self.left = self.right.left
+				self.right = self.right.right
+				return copy
+		else:
+			next = self.nextLarger()
+			self.value, next.value = next.value, self.value
+			return next.delete()
 			
 tree1 = Node(23)
 tree1.insert(8)
-tree1.insert(4)
-tree1.insert(42)
-tree1.insert(16)
-tree1.insert(15)
-print tree1.find(8).nextSmaller().value
+##tree1.insert(4)
+##tree1.insert(42)
+##tree1.insert(16)
+##tree1.insert(15)
+tree1.inOrderTraversal()
+print "deleting: " + str(tree1.find(23).delete().value)
+tree1.inOrderTraversal()
