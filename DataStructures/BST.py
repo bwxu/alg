@@ -30,6 +30,11 @@ class Node:
 		if self.left != None:
 			return self.left.findMin()
 		return self
+		
+	def findMax(self):
+		if self.right != None:
+			return self.right.findMax()
+		return self
 	
 	# returns None if no larger found
 	def nextLarger(self):
@@ -43,7 +48,12 @@ class Node:
 			
 	def nextSmaller(self):
 		if self.left != None:
-			return fin
+			return self.left.findMax()
+		else:
+			current = self
+			while current.parent != None and current is current.parent.left:
+				current = current.parent
+			return current.parent
 	
 	def inOrderTraversal(self):
 		if self.left != None:
@@ -76,4 +86,4 @@ tree1.insert(4)
 tree1.insert(42)
 tree1.insert(16)
 tree1.insert(15)
-print tree1.find(8).nextLarger().value
+print tree1.find(8).nextSmaller().value
