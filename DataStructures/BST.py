@@ -4,9 +4,16 @@ class Node:
 		self.parent = None
 		self.left = None
 		self.right = None
+		
+	def findRoot(self):
+		if self.parent != None:
+			findRoot(self.parent)
+		return self 
 	
 	def insert(self, value):
-		if value < self.value:
+		if self.value == None:
+			self = Node(value)
+		elif value < self.value:
 			if self.left != None:
 				self.left.insert(value)
 			else:
@@ -39,7 +46,34 @@ class Node:
 		print self.value
 		if self.right != None:
 			self.right.inOrderTraversal()
-					
-tree1 = Node(1)
-tree1.insert(0)
+	
+	def find(self, value):
+		if self.value == None:
+			print "1"
+			return None
+		elif value == self.value:
+			print "2"
+			return self
+		elif value < self.value:
+			print "3"
+			if self.left == None:
+				return None
+			else:
+				self.left.find(value)
+		elif value > self.value:
+			print "4"
+			if self.right == None:
+				return None
+			elif self.right.value == value:
+				return self.right
+			else:
+				self.right.find(value)
+			
+tree1 = Node(23)
+tree1.insert(8)
+tree1.insert(4)
+tree1.insert(42)
+tree1.insert(16)
+tree1.insert(15)
 tree1.inOrderTraversal()
+print tree1.find(15).value
