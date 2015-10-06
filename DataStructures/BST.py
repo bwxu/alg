@@ -28,17 +28,22 @@ class Node:
 	
 	def findMin(self):
 		if self.left != None:
-			find_min(self.left)
-		return self.value 
+			return self.left.findMin()
+		return self
 	
+	# returns None if no larger found
 	def nextLarger(self):
 		if self.right != None:
-			return find_min(self.right)
+			return self.right.findMin()
 		else:
 			current = self
 			while current.parent != None and current is current.parent.right:
 				current = current.parent
 			return current.parent
+			
+	def nextSmaller(self):
+		if self.left != None:
+			return fin
 	
 	def inOrderTraversal(self):
 		if self.left != None:
@@ -49,25 +54,21 @@ class Node:
 	
 	def find(self, value):
 		if self.value == None:
-			print "1"
 			return None
 		elif value == self.value:
-			print "2"
 			return self
 		elif value < self.value:
-			print "3"
 			if self.left == None:
 				return None
 			else:
-				self.left.find(value)
+				return self.left.find(value)
 		elif value > self.value:
-			print "4"
 			if self.right == None:
 				return None
 			elif self.right.value == value:
 				return self.right
 			else:
-				self.right.find(value)
+				return self.right.find(value)
 			
 tree1 = Node(23)
 tree1.insert(8)
@@ -75,5 +76,4 @@ tree1.insert(4)
 tree1.insert(42)
 tree1.insert(16)
 tree1.insert(15)
-tree1.inOrderTraversal()
-print tree1.find(15).value
+print tree1.find(8).nextLarger().value
